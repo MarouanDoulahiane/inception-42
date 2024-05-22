@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  mariadb:
+    build: ./requirements/mariadb/.
+    container_name: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - inception
+
+  wordpress:
+    build: ./requirements/wordpress/.
+    container_name: wordpress
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      DOMAIN_NAME: ${DOMAIN_NAME}
+      WP_USER: ${WP_USER}
+      WP_PASSWORD: ${WP_PASSWORD}
+      WP_EMAIL: ${WP_EMAIL}
+      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
+    volumes:
+      - wordpress_data:/var/www/html
+    networks:
+      - inception
+    depends_on:
+      - mariadb
+
+volumes:
+  mariadb_data:
+    driver: local
+  wordpress_data:
+    driver: local
+
+networks:
+  inception:
