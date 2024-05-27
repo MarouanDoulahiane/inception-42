@@ -154,3 +154,6 @@ volumes:
 - Use optimized images, such as Alpine, to reduce the container size.
 - Leverage multi-stage builds in Dockerfiles to keep your images lean and performant.
 
+
+For 42 Student you can run the script ./init_docker.sh inside this repo https://github.com/alexandregv/42toolbox.git to use docker in goinfre !
+
